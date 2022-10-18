@@ -6,6 +6,6 @@ The sliding window technique is used to solve problems over a defined window siz
 2. keywords such as: *longest/shortets subset*, *subarray*, or value, etc...
 
 ### solutions using sliding window
-- [leetcode #1876](#https://github.com/lareenmelo/algorithms-queen/blob/main/other/solutions/leetcode_1876.swift)
-- [leetcode #121](#https://github.com/lareenmelo/algorithms-queen/blob/main/other/solutions/leetcode_121.swift)
-- [leetcode #2379](#https://github.com/lareenmelo/algorithms-queen/blob/main/other/solutions/leetcode_2379.swift)
+- [leetcode #1876](https://github.com/lareenmelo/algorithms-queen/blob/main/other/solutions/leetcode_1876.swift)
+- [leetcode #121](https://github.com/lareenmelo/algorithms-queen/blob/main/other/solutions/leetcode_121.swift)
+- [leetcode #2379](https://github.com/lareenmelo/algorithms-queen/blob/main/other/solutions/leetcode_2379.swift)
