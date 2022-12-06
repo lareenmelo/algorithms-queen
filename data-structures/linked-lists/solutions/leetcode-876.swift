@@ -8,7 +8,8 @@ func middleNode(_ head: ListNode?) -> ListNode? {
 		slow = slow?.next
 		fast = fast?.next?.next
 	}
-
+	
+	// by the time fast gets to the end, slow will be halfway the list
 	return slow
 }
 
