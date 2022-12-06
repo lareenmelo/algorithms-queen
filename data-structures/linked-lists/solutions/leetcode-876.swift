@@ -1,4 +1,19 @@
 // 876 - Middle of the Linked List
+// MARK: optimal solution
+func middleNode(_ head: ListNode?) -> ListNode? {
+	var slow = head
+	var fast = head
+
+	while fast != nil && fast?.next != nil {
+		slow = slow?.next
+		fast = fast?.next?.next
+	}
+
+	return slow
+}
+
+
+// MARK: brute force 🤭
 func middleNode(_ head: ListNode?) -> ListNode? {
 	var listSize = 0
 	var temp = head
