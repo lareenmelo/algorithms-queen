@@ -1,9 +1,9 @@
 # hash tables
 
-## what is it?
+## what is they?
 a data structure that stores data in key-value pairs.
 
-## how does it work?
+## how do they work?
 hash tables store values in an array by sending the key through a hash function so it gets transformed into an index (keys can be anything: ints, strings, structs, etc…). you access values by giving the key (but not the other way around)
 
 collisions can happen. a collision is when a hash function returns the same hash for more than 1 key. For this, a solution is to make our array of keys an array of linked lists that store key, value pairs.
