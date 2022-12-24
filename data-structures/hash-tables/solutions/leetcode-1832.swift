@@ -21,3 +21,11 @@ func checkIfPangram(_ sentence: String) -> Bool {
 
 	return isPangram
 }
+
+
+// clever solution, using set
+func checkIfPangram(_ sentence: String) -> Bool {
+	let frequency = Set(sentence)
+
+	return frequency.count == 26
+}
