@@ -2,15 +2,16 @@
 class HashTable<Key: Hashable, Value> {
 	/// an element is the key, value pair
 	typealias Element = (key: Key, value: Value)
+	typealias Bucket = [Element]
 	/// how many defined keys there are
 	private var count: Int
 	/// the size of the hash table. buckets is an array of
 	/// key value pairs. a key may not be in the bucket.
-	var buckets: Array<Element?>
+	var buckets: Array<Bucket>
 
 	init(size: Int) {
 		self.count = 0
-		self.buckets = Array<Element?>(repeating: nil, count: size)
+		self.buckets = Array<Bucket>(repeating: [], count: size)
 	}
 
 
@@ -32,7 +33,9 @@ class HashTable<Key: Hashable, Value> {
 	private func find(_ key: Key) -> Value? {
 		let index = index(of: key)
 
-		return buckets[index]?.value
+		let element = buckets[index].first { $0.key == key }?.value
+
+		return element
 	}
 
 	/// adds a (key, value) pair to the hash table
@@ -41,10 +44,12 @@ class HashTable<Key: Hashable, Value> {
 	private func add(value: Value, to key: Key) {
 		let index = index(of: key)
 
-		let item = (key: key, value: value)
-		buckets[index] = item
-
-		count += 1
+		if let (location, element) = buckets[index].enumerated().first(where: { $0.1.key == key}) {
+			buckets[index][location].value = value
+		} else {
+			buckets[index].append((key: key, value: value))
+			count += 1
+		}
 	}
 }
 
