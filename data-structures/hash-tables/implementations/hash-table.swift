@@ -23,6 +23,8 @@ class HashTable<Key: Hashable, Value> {
 		set {
 			if let value = newValue {
 				add(value: value, to: key)
+			} else {
+				remove(key)
 			}
 		}
 	}
@@ -50,6 +52,24 @@ class HashTable<Key: Hashable, Value> {
 			buckets[index].append((key: key, value: value))
 			count += 1
 		}
+	}
+
+	/// removes a (key, value) pair from the hash table
+	/// a hash to determine index is performed.
+	private func remove(_ key: Key) {
+		let index = index(of: key)
+
+		if let (location, element) = buckets[index].enumerated().first(where: { $0.1.key == key }) {
+			buckets[index].remove(at: location)
+			count -= 1
+		}
+	}
+
+
+	/// returns how many elements are stored in the
+	/// hash table
+	func size() -> Int {
+		return count
 	}
 }
 
