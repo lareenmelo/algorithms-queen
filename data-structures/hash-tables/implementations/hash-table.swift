@@ -3,15 +3,24 @@ class HashTable<Key: Hashable, Value> {
 	/// an element is the key, value pair
 	typealias Element = (key: Key, value: Value)
 	typealias Bucket = [Element]
+
+
+	private var capacity: Int
 	/// how many defined keys there are
 	private var count: Int
+
+
+	private var loadFactor: Double
 	/// the size of the hash table. buckets is an array of
 	/// key value pairs. a key may not be in the bucket.
 	var buckets: Array<Bucket>
 
 	init(size: Int) {
 		self.count = 0
-		self.buckets = Array<Bucket>(repeating: [], count: size)
+		self.capacity = size
+		self.loadFactor = 0.0
+
+		self.buckets = Array<Bucket>(repeating: [], count: self.capacity)
 	}
 
 
@@ -26,6 +35,8 @@ class HashTable<Key: Hashable, Value> {
 			} else {
 				remove(key)
 			}
+
+			loadFactor = Double(count/buckets.count)
 		}
 	}
 
@@ -44,6 +55,10 @@ class HashTable<Key: Hashable, Value> {
 	/// it first, hashes the key to determine where
 	/// to store the (key, value) pair
 	private func add(value: Value, to key: Key) {
+		if loadFactor >= 0.75 {
+			resize()
+		}
+
 		let index = index(of: key)
 
 		if let (location, element) = buckets[index].enumerated().first(where: { $0.1.key == key}) {
@@ -65,6 +80,36 @@ class HashTable<Key: Hashable, Value> {
 		}
 	}
 
+	/// resize is done when the hash table's buckets
+	/// are 60% full. the size grows twice as big and
+	/// (key, value) pairs are rehashed
+	/// the resize won't reduce in size after being rehashed.
+	private func resize() {
+		print("resizing...")
+
+		let newCapacity = capacity * 2
+		// 1. create new array of double the size of current capcity
+		var newBuckets = Array<Bucket>(repeating: [], count: newCapacity)
+
+
+		// 2. add items to new array
+		for index in 0..<buckets.count {
+			for (i, element) in buckets[index].enumerated() {
+				// rehashing
+				let index = rehash(element, to: newBuckets)
+
+				newBuckets[index].append((key: element.key, value: element.value))
+			}
+		}
+
+
+		// 3. update buckets array
+		buckets = newBuckets
+		// 4. update capacity
+		capacity = newCapacity
+
+	}
+
 
 	/// returns how many elements are stored in the
 	/// hash table
@@ -73,6 +118,7 @@ class HashTable<Key: Hashable, Value> {
 	}
 }
 
+// MARK: Hashing Methods
 extension HashTable {
 	/// hash function taken from https://gist.github.com/kharrison/2355182ac03b481921073c5cf6d77a73#file-country-swift-L31 because no somo loco
 	private func djb2Hash(_ string: String) -> Int {
@@ -85,7 +131,17 @@ extension HashTable {
 	/// returns the index where the key should be
 	/// stored after being hashed
 	private func index(of key: Key) -> Int {
-		var stringKey = String(key.hashValue)
+		let stringKey = String(key.hashValue)
+
+		return abs(djb2Hash(stringKey)) % buckets.count
+	}
+
+	/// returns the index where the key should be stored
+	/// in the new hash table after being hashed
+	private func rehash(_ element: Element, to buckets: [Bucket]) -> Int {
+		var key = element.key
+		let stringKey = String(key.hashValue)
+
 
 		return abs(djb2Hash(stringKey)) % buckets.count
 	}
