@@ -11,7 +11,7 @@ struct Stack<T> {
 
 	/// removes the top element of the stack
 	mutating func pop() {
-		stack.dropLast()
+		stack.popLast()
 	}
 
 	/// returns the top most item in the stack if there's any
