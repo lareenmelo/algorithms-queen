@@ -1,6 +1,6 @@
 # stacks
 
-## what is they?
+## what are they?
 a linear data structure that follows the **LIFO** (**l**ast **i**n, **f**irst **o**ut) rule.
 
 ## how do they work?
