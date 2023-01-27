@@ -1,6 +1,6 @@
 # hash tables
 
-## what is they?
+## what are they?
 a data structure that stores data in key-value pairs.
 
 ## how do they work?
